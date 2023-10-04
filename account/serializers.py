@@ -44,16 +44,9 @@ class  UserProfileSerializer(serializers.ModelSerializer):
 class LeaveViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Leave
-        fields=['leave_type','leave_from','leave_till','reason']
-
-        def validate(self,attrs):
-            return attrs
+        fields=['id','leave_type','leave_from','leave_till','reason']
 
         
-
-        def create(self,valiadte_data):
-            return Leave.objects.create_user(**valiadte_data)        
-
 
 
 

@@ -132,6 +132,21 @@ class LeaveDataView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)                   
       
+    def get(self, request, format=None):
+        try:
+            # The user is already authenticated via JWT token
+            user = request.user
+
+            # Query the database to retrieve leave data for the authenticated user
+            leave_data = Leave.objects.filter(forkey=user)
+
+            # Serialize the leave data
+            serializer = LeaveViewSerializer(leave_data, many=True)
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 
