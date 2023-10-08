@@ -1,10 +1,10 @@
 
 import attrs
 from rest_framework import serializers
-from account.models import User,Leave
+from account.models import User,Leave,expense,advanceExpense
 from django.utils.encoding import smart_str, force_bytes,DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
-#from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
 
 class UserRegisterationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={'input_type':'password'},write_only = True)
@@ -46,8 +46,16 @@ class LeaveViewSerializer(serializers.ModelSerializer):
         model = Leave
         fields=['id','leave_type','leave_from','leave_till','reason']
 
+
+class ExpenseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = expense
+        fields = ('claim_category', 'claimed_amount', 'comments','photo')        
+
         
 
 
-
-
+class advanceExpenseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= advanceExpense
+        fields = ('claim_category','claimed_amount','comments','photo')

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from account.models import User,Leave
+from account.models import User,Leave,expense,advanceExpense
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 
@@ -41,3 +41,15 @@ admin.site.register(User, UserModelAdmin)
 class LeaveAdmin(admin.ModelAdmin):
     list_display=('leave_type','leave_from','leave_till','reason')
 admin.site.register(Leave,LeaveAdmin)
+
+
+class expenseAdmin(admin.ModelAdmin):
+    list_display=('claim_category','claimed_amount','comments','photo')
+
+admin.site.register(expense,expenseAdmin)    
+
+
+class advanceExpenseAdmin(admin.ModelAdmin):
+    list_display=('claim_category','claimed_amount','comments','photo')
+
+admin.site.register(advanceExpense,advanceExpenseAdmin)    

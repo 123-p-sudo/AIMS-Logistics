@@ -92,3 +92,27 @@ class Leave(models.Model):
     def __str__(self):
         return self.leave_type
      
+
+
+class expense(models.Model):
+    claim_category=models.CharField(max_length=50)
+    claimed_amount=models.IntegerField()
+    comments=models.TextField()
+    photo = models.ImageField(upload_to="photo/%Y/%m/%d",blank=True) 
+    forkey = models.ForeignKey(User, on_delete=models.CASCADE,default=1)  
+
+    def __str__(self):
+        return self.claim_category  
+    
+
+
+
+class advanceExpense(models.Model):
+    claim_category=models.CharField(max_length=50)
+    claimed_amount=models.IntegerField()
+    comments=models.TextField()
+    photo = models.ImageField(upload_to="photo/%Y/%m/%d",blank=True) 
+    forkey = models.ForeignKey(User, on_delete=models.CASCADE,default=1)  
+
+    def __str__(self):
+        return self.claim_category    
