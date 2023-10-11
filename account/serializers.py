@@ -1,7 +1,7 @@
 
 import attrs
 from rest_framework import serializers
-from account.models import User,Leave,expense,advanceExpense
+from account.models import User,Leave,expense,advanceExpense,Leads,Loads
 from django.utils.encoding import smart_str, force_bytes,DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
 
@@ -59,3 +59,17 @@ class advanceExpenseSerializer(serializers.ModelSerializer):
     class Meta:
         model= advanceExpense
         fields = ('claim_category','claimed_amount','comments','photo')
+
+
+
+class LeadsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Leads
+        fields = ('truck_name','driver_name','phone','type','description','truck_no')
+
+
+
+class LoadsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Loads
+        fields = ('name','departure','arrival','weight','price','truck_type','material_type')        

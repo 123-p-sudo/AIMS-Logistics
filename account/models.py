@@ -116,3 +116,32 @@ class advanceExpense(models.Model):
 
     def __str__(self):
         return self.claim_category    
+    
+
+
+class Leads(models.Model):
+    truck_name=models.CharField(max_length=50)
+    driver_name=models.CharField(max_length=25)
+    phone=models.IntegerField()
+    type = models.CharField(max_length=50)
+    description=models.TextField()
+    truck_no = models.IntegerField()
+    forkey = models.ForeignKey(User, on_delete=models.CASCADE,default=1) 
+
+    def __str__(self):
+        return self.truck_name    
+
+
+class Loads(models.Model):
+    name=models.CharField(max_length=50)
+    departure = models.CharField(max_length=25)
+    arrival = models.CharField(max_length=50)
+    weight =models.IntegerField()
+    price =models.IntegerField()
+    truck_type = models.CharField(max_length=100)
+    material_type = models.CharField(max_length=100)
+    forkey = models.ForeignKey(User, on_delete=models.CASCADE,default=1) 
+    
+
+    def __str__(self):
+        return self.name      

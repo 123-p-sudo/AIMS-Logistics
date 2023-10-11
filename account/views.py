@@ -2,7 +2,7 @@ from logging import raiseExceptions
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from account.serializers import  UserRegisterationSerializer,UserLoginSerializer,LeaveViewSerializer,ExpenseSerializer,advanceExpenseSerializer
+from account.serializers import  UserRegisterationSerializer,UserLoginSerializer,LeaveViewSerializer,ExpenseSerializer,advanceExpenseSerializer,LeadsSerializer,LoadsSerializer
 from django.contrib.auth import authenticate
 from account.renderers import UserRenderer
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -13,7 +13,7 @@ from django.shortcuts import render
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from account.models import Leave,expense,advanceExpense
+from account.models import Leave,expense,advanceExpense,Leads,Loads
 from rest_framework.parsers import MultiPartParser, FormParser
 
 
@@ -181,6 +181,79 @@ class advanceExpenseView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)          
             
+
+
+
+class LeadsView(APIView):
+      authentication_classes = [JWTAuthentication]  # Add JWTAuthentication
+      permission_classes = [IsAuthenticated]
+    
+
+      def post(self, request, format=None):
+       try:
+            user = request.user
+            truck_name = request.data.get("truck_name")
+            driver_name = request.data.get("driver_name")
+            phone = request.data.get("phone")
+            type = request.data.get("type")
+            description = request.data.get("description")
+            truck_no = request.data.get("truck_no")
+
+            LeadsModel = Leads(forkey=user,truck_name=truck_name, driver_name=driver_name, phone=phone, type=type,description=description,truck_no=truck_no)
+            LeadsModel.save()
+
+            return Response({"message": "truck details stored successfully"}, status=status.HTTP_201_CREATED)
+       except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+       
+
+      def get(self, request, format=None):
+        try:
+            user = request.user
+            leadsData = Leads.objects.filter(forkey=user)
+            serializer = LeadsSerializer(leadsData, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR) 
+
+
+
+
+
+class LoadsView(APIView):
+      authentication_classes = [JWTAuthentication]  # Add JWTAuthentication
+      permission_classes = [IsAuthenticated]
+    
+
+      def post(self, request, format=None):
+       try:
+            user = request.user
+            name = request.data.get("name")
+            departure = request.data.get("departure")
+            arrival = request.data.get("arrival")
+            weight = request.data.get("weight")
+            price = request.data.get("price")
+            truck_type = request.data.get("truck_type")
+            material_type = request.data.get("material_type")
+
+            LoadsModel = Loads(forkey=user,name=name, departure=departure, arrival=arrival, weight=weight,price=price,truck_type=truck_type,material_type=material_type)
+            LoadsModel.save()
+
+            return Response({"message": "Loads details stored successfully"}, status=status.HTTP_201_CREATED)
+       except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+       
+
+      def get(self, request, format=None):
+        try:
+            user = request.user
+            loadsData = Loads.objects.filter(forkey=user)
+            serializer = LoadsSerializer(loadsData, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)                    
               
         
 

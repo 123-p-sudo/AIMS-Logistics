@@ -1,5 +1,5 @@
 from django.contrib import admin
-from account.models import User,Leave,expense,advanceExpense
+from account.models import User,Leave,expense,advanceExpense,Leads,Loads
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 
@@ -53,3 +53,16 @@ class advanceExpenseAdmin(admin.ModelAdmin):
     list_display=('claim_category','claimed_amount','comments','photo')
 
 admin.site.register(advanceExpense,advanceExpenseAdmin)    
+
+
+class LeadsAdmin(admin.ModelAdmin):
+    list_display=('truck_name','driver_name','phone','type','description','truck_no')
+
+admin.site.register(Leads,LeadsAdmin) 
+
+
+
+class LoadsAdmin(admin.ModelAdmin):
+    list_display=('name','departure','arrival','weight','price','truck_type','material_type')
+
+admin.site.register(Loads,LoadsAdmin) 
