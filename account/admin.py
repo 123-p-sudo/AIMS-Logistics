@@ -1,5 +1,5 @@
 from django.contrib import admin
-from account.models import User,Leave,expense,advanceExpense,Leads,Loads
+from account.models import User,Leave,expense,advanceExpense,Leads,Loads,KYCDetails
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 
@@ -66,3 +66,9 @@ class LoadsAdmin(admin.ModelAdmin):
     list_display=('name','departure','arrival','weight','price','truck_type','material_type')
 
 admin.site.register(Loads,LoadsAdmin) 
+
+
+class KYCAdmin(admin.ModelAdmin):
+    list_display=('truck_no','truck_driver_name','truck_type','phone_number','address','Aadhaar','PAN','RC')
+
+admin.site.register(KYCDetails,KYCAdmin) 

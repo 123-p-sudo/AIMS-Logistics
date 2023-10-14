@@ -144,4 +144,22 @@ class Loads(models.Model):
     
 
     def __str__(self):
-        return self.name      
+        return self.name  
+
+
+
+
+
+class KYCDetails(models.Model):
+    truck_no=models.IntegerField()
+    truck_driver_name=models.CharField(max_length=50)
+    truck_type=models.CharField(max_length=60)
+    phone_number=models.IntegerField()
+    address = models.TextField()
+    Aadhaar = models.ImageField(upload_to="photo/%Y/%m/%d",blank=True) 
+    PAN = models.ImageField(upload_to="photo/%Y/%m/%d",blank=True)
+    RC = models.ImageField(upload_to="photo/%Y/%m/%d",blank=True)
+    forkey = models.ForeignKey(User, on_delete=models.CASCADE,default=1)  
+
+    def __str__(self):
+        return self.truck_driver_name         

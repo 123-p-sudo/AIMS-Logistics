@@ -1,6 +1,6 @@
 
 from django.urls import path,include
-from account.views import UserRegisterationView,UserLoginView,LeaveDataView,ExpenseCreateView,advanceExpenseView,LeadsView,LoadsView
+from account.views import UserRegisterationView,UserLoginView,LeaveDataView,ExpenseCreateView,advanceExpenseView,LeadsView,LoadsView,KYCView
 from . import views
 urlpatterns = [
     path('register/',UserRegisterationView.as_view(),name='register'),
@@ -11,5 +11,6 @@ urlpatterns = [
     path('advanceExpenseUpload/', advanceExpenseView.as_view(), name='upload_advanceExpense'),
     path('LeadsUpload/', LeadsView.as_view(), name='upload_lead'),
     path('LoadsUpload/', LoadsView.as_view(), name='upload_load'),
+    path('KYCUpload/', KYCView.as_view(), name='upload_KYC'),
 
 ]

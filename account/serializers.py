@@ -1,7 +1,7 @@
 
 import attrs
 from rest_framework import serializers
-from account.models import User,Leave,expense,advanceExpense,Leads,Loads
+from account.models import User,Leave,expense,advanceExpense,Leads,Loads,KYCDetails
 from django.utils.encoding import smart_str, force_bytes,DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
 
@@ -72,4 +72,11 @@ class LeadsSerializer(serializers.ModelSerializer):
 class LoadsSerializer(serializers.ModelSerializer):
     class Meta:
         model= Loads
-        fields = ('name','departure','arrival','weight','price','truck_type','material_type')        
+        fields = ('name','departure','arrival','weight','price','truck_type','material_type')      
+
+
+
+class KYCSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= KYCDetails
+        fields = ('truck_no','truck_driver_name','truck_type','phone_number','address','Aadhaar','PAN','RC')             

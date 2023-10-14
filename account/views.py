@@ -2,7 +2,7 @@ from logging import raiseExceptions
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from account.serializers import  UserRegisterationSerializer,UserLoginSerializer,LeaveViewSerializer,ExpenseSerializer,advanceExpenseSerializer,LeadsSerializer,LoadsSerializer
+from account.serializers import  UserRegisterationSerializer,UserLoginSerializer,LeaveViewSerializer,ExpenseSerializer,advanceExpenseSerializer,LeadsSerializer,LoadsSerializer,KYCSerializer
 from django.contrib.auth import authenticate
 from account.renderers import UserRenderer
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -13,7 +13,7 @@ from django.shortcuts import render
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from account.models import Leave,expense,advanceExpense,Leads,Loads
+from account.models import Leave,expense,advanceExpense,Leads,Loads,KYCDetails
 from rest_framework.parsers import MultiPartParser, FormParser
 
 
@@ -255,6 +255,46 @@ class LoadsView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)                    
               
+
+
+
+
+
+class KYCView(APIView):
+      authentication_classes = [JWTAuthentication]  # Add JWTAuthentication
+      permission_classes = [IsAuthenticated]
+    
+
+      def post(self, request, format=None):
+       try:
+            user = request.user
+            truck_no = request.data.get("truck_no")
+            truck_driver_name = request.data.get("truck_driver_name")
+            truck_type = request.data.get("truck_type")
+            phone_number = request.data.get("phone_number")
+            address = request.data.get("address")
+            Aadhaar = request.data.get("Aadhaar")
+            PAN = request.data.get("PAN")
+            RC = request.data.get("RC")
+
+            KYCModel = KYCDetails(forkey=user,truck_no=truck_no, truck_driver_name=truck_driver_name, truck_type=truck_type, phone_number=phone_number,address=address,Aadhaar=Aadhaar,PAN=PAN,RC=RC)
+            KYCModel.save()
+
+            return Response({"message": "KYC details stored successfully"}, status=status.HTTP_201_CREATED)
+       except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+       
+
+      def get(self, request, format=None):
+        try:
+            user = request.user
+            KYCData = KYCDetails.objects.filter(forkey=user)
+            serializer = KYCSerializer(KYCData, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)                    
+                            
         
 
 
